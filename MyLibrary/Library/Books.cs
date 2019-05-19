@@ -142,7 +142,7 @@ namespace Library
             using (MyLibraryEntities db = new MyLibraryEntities())
             {
                 Book book = db.Books.Where(x => x.Id == SelectedRowId).FirstOrDefault();
-                AuthorsBook authorsBook=db.AuthorsBooks.Where(x => x.AuthorId == SelectedRowId).FirstOrDefault();
+                AuthorsBook authorsBook=db.AuthorsBooks.Where(x => x.BookId == SelectedRowId).FirstOrDefault();
                 if (GoChek.IsEmpityOrMaxChar(textBoxBooksName.Text) && GoChek.IsStringValue(textBoxBooksName.Text))
                 {
                     book.BKName = GoChek.ClearValue;
