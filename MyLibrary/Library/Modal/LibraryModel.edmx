@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyLibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AUTName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuthorsBooks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AuthorId" Type="int" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BKName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CatagoryId" Type="int" Nullable="false" />
+          <Property Name="BKCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Catagories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CTName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CLName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="date" Nullable="false" />
+          <Property Name="ReturnDate" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="AuthorId_FK">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="1" />
+          <End Role="AuthorsBooks" Type="Self.AuthorsBooks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuthorsBooks">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BookId_FK">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="AuthorsBooks" Type="Self.AuthorsBooks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuthorsBooks">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Catagory_FK">
+          <End Role="Catagories" Type="Self.Catagories" Multiplicity="1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catagories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="CatagoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrBookId_FK">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrClientId_FK">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyLibraryModelStoreContainer">
+          <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuthorsBooks" EntityType="Self.AuthorsBooks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Catagories" EntityType="Self.Catagories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="AuthorId_FK" Association="Self.AuthorId_FK">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="AuthorsBooks" EntitySet="AuthorsBooks" />
+          </AssociationSet>
+          <AssociationSet Name="BookId_FK" Association="Self.BookId_FK">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="AuthorsBooks" EntitySet="AuthorsBooks" />
+          </AssociationSet>
+          <AssociationSet Name="Catagory_FK" Association="Self.Catagory_FK">
+            <End Role="Catagories" EntitySet="Catagories" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="OrBookId_FK" Association="Self.OrBookId_FK">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="OrClientId_FK" Association="Self.OrClientId_FK">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AUTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AuthorsBooks" Relationship="Self.AuthorId_FK" FromRole="Authors" ToRole="AuthorsBooks" />
+        </EntityType>
+        <EntityType Name="AuthorsBook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AuthorId" Type="Int32" Nullable="false" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Author" Relationship="Self.AuthorId_FK" FromRole="AuthorsBooks" ToRole="Authors" />
+          <NavigationProperty Name="Book" Relationship="Self.BookId_FK" FromRole="AuthorsBooks" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BKName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CatagoryId" Type="Int32" Nullable="false" />
+          <Property Name="BKCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AuthorsBooks" Relationship="Self.BookId_FK" FromRole="Books" ToRole="AuthorsBooks" />
+          <NavigationProperty Name="Catagory" Relationship="Self.Catagory_FK" FromRole="Books" ToRole="Catagories" />
+          <NavigationProperty Name="Orders" Relationship="Self.OrBookId_FK" FromRole="Books" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Catagory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="Self.Catagory_FK" FromRole="Catagories" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CLName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Orders" Relationship="Self.OrClientId_FK" FromRole="Clients" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Book" Relationship="Self.OrBookId_FK" FromRole="Orders" ToRole="Books" />
+          <NavigationProperty Name="Client" Relationship="Self.OrClientId_FK" FromRole="Orders" ToRole="Clients" />
+        </EntityType>
+        <Association Name="AuthorId_FK">
+          <End Role="Authors" Type="MyLibraryModel.Author" Multiplicity="1" />
+          <End Role="AuthorsBooks" Type="Self.AuthorsBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuthorsBooks">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BookId_FK">
+          <End Role="Books" Type="Self.Book" Multiplicity="1" />
+          <End Role="AuthorsBooks" Type="Self.AuthorsBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AuthorsBooks">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Catagory_FK">
+          <End Role="Catagories" Type="Self.Catagory" Multiplicity="1" />
+          <End Role="Books" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catagories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="CatagoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrBookId_FK">
+          <End Role="Books" Type="Self.Book" Multiplicity="1" />
+          <End Role="Orders" Type="MyLibraryModel.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrClientId_FK">
+          <End Role="Clients" Type="Self.Client" Multiplicity="1" />
+          <End Role="Orders" Type="MyLibraryModel.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyLibraryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="MyLibraryModel.Author" />
+          <EntitySet Name="AuthorsBooks" EntityType="Self.AuthorsBook" />
+          <EntitySet Name="Books" EntityType="Self.Book" />
+          <EntitySet Name="Catagories" EntityType="Self.Catagory" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Orders" EntityType="MyLibraryModel.Order" />
+          <AssociationSet Name="AuthorId_FK" Association="Self.AuthorId_FK">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="AuthorsBooks" EntitySet="AuthorsBooks" />
+          </AssociationSet>
+          <AssociationSet Name="BookId_FK" Association="Self.BookId_FK">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="AuthorsBooks" EntitySet="AuthorsBooks" />
+          </AssociationSet>
+          <AssociationSet Name="Catagory_FK" Association="Self.Catagory_FK">
+            <End Role="Catagories" EntitySet="Catagories" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="OrBookId_FK" Association="Self.OrBookId_FK">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="OrClientId_FK" Association="Self.OrClientId_FK">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyLibraryModelStoreContainer" CdmEntityContainer="MyLibraryEntities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="MyLibraryModel.Author">
+              <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AUTName" ColumnName="AUTName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuthorsBooks">
+            <EntityTypeMapping TypeName="MyLibraryModel.AuthorsBook">
+              <MappingFragment StoreEntitySet="AuthorsBooks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="MyLibraryModel.Book">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BKName" ColumnName="BKName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
+                <ScalarProperty Name="BKCount" ColumnName="BKCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Catagories">
+            <EntityTypeMapping TypeName="MyLibraryModel.Catagory">
+              <MappingFragment StoreEntitySet="Catagories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CTName" ColumnName="CTName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="MyLibraryModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CLName" ColumnName="CLName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="MyLibraryModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

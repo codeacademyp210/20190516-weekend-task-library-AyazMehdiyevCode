@@ -1,0 +1,67 @@
+--CREATES
+--CREATE DATABASE MyLibrary;
+
+--CREATE TABLE Clients(
+--	Id INT IDENTITY(1,1) PRIMARY KEY,
+--	CLName NVARCHAR(50) NOT NULL,
+--	Surname NVARCHAR(50) NOT NULL,
+--	Phone	NVARCHAR(50) NOT NULL,
+--	Email NVARCHAR(50) NOT NULL UNIQUE,
+--	Status BIT DEFAULT '1',
+--);
+
+--CREATE TABLE Catagories(
+--	Id INT IDENTITY(1,1) PRIMARY KEY,
+--	CTName NVARCHAR(50) NOT NULL,
+--);
+
+--CREATE TABLE Authors(
+--	Id INT IDENTITY(1,1) PRIMARY KEY,
+--	AUTName NVARCHAR(50) NOT NULL,
+--	Surname NVARCHAR(50) NOT NULL,
+--);
+
+--CREATE TABLE Books(
+--	Id INT IDENTITY(1,1) PRIMARY KEY,
+--	BKName NVARCHAR(50) NOT NULL,
+--	Price DECIMAL NOT NULL,
+--	CatagoryId INT NOT NULL,
+--	CONSTRAINT Catagory_FK FOREIGN KEY (CatagoryId)
+--	REFERENCES Catagories(Id),
+--	BKCount INT NOT NULL
+--	);
+
+--CREATE TABLE AuthorsBooks(
+--	Id INT IDENTITY(1,1) PRIMARY KEY,
+--	AuthorId INT NOT NULL,
+--	BookId INT NOT NULL,
+--	CONSTRAINT AuthorId_FK FOREIGN KEY (AuthorId)
+--	REFERENCES Authors(Id),
+--	CONSTRAINT BookId_FK FOREIGN KEY (BookId)
+--	REFERENCES Books(Id),
+--);
+
+--CREATE TABLE Orders(
+--	Id INT IDENTITY(1,1) PRIMARY KEY,
+--	ClientId INT NOT NULL,
+--	BookId INT NOT NULL,
+--	OrderDate DATE NOT NULL,
+--	ReturnDate DATE NOT NULL,
+--	CONSTRAINT OrClientId_FK FOREIGN KEY (ClientId)
+--	REFERENCES Clients(Id),
+--	CONSTRAINT OrBookId_FK FOREIGN KEY (BookId)
+--	REFERENCES Books(Id),
+--);
+
+
+------Drops
+--DROP DATABASE MyLibrary;
+
+--DROP TABLE Clients;
+--DROP TABLE Catagories;
+--DROP TABLE Authors;
+--DROP TABLE Books;
+--DROP TABLE AuthorsBooks;
+--DROP TABLE Orders;
+
+
